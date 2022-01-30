@@ -286,6 +286,12 @@ When supplied, the toCanvas function will return a blob matching the given image
 
 Defaults to `image/png`  
 
+### plainSvg
+
+A boolean to turn of url encoding for toSvg. The raw xml string will be returned instead.
+
+Defaults to `false`
+
 ## Browsers
 
 Only standard lib is currently used, but make sure your browser supports:

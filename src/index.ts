@@ -30,7 +30,7 @@ export async function toSvg<T extends HTMLElement>(
     .then((clonedNode) => embedWebFonts(clonedNode!, options))
     .then((clonedNode) => embedImages(clonedNode, options))
     .then((clonedNode) => applyStyleWithOptions(clonedNode, options))
-    .then((clonedNode) => nodeToDataURL(clonedNode, width, height))
+    .then((clonedNode) => nodeToDataURL(clonedNode, width, height, options))
 }
 
 const dimensionCanvasLimit = 16384 // as per https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas#maximum_canvas_size
@@ -64,7 +64,7 @@ export async function toCanvas<T extends HTMLElement>(
   node: T,
   options: Options = {},
 ): Promise<HTMLCanvasElement> {
-  return toSvg(node, options)
+  return toSvg(node, { ...options, plainSvg: false })
     .then(createImage)
     .then((img) => {
       const canvas = document.createElement('canvas')
