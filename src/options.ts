@@ -79,6 +79,10 @@ export interface Options {
    * A string indicating the image format. The default type is image/png; that type is also used if the given type isn't supported.
    */
   type?: string
+  /**
+   * A boolean to turn of url encoding for toSvg. The raw xml string will be returned instead.
+   */
+  plainSvg?: boolean
 
   /**
    *

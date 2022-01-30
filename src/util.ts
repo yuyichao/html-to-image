@@ -189,17 +189,25 @@ export function createImage(url: string): Promise<HTMLImageElement> {
   })
 }
 
-export async function svgToDataURL(svg: SVGElement): Promise<string> {
-  return Promise.resolve()
-    .then(() => new XMLSerializer().serializeToString(svg))
+async function encodeSvg(svg: SVGElement, plain = false): Promise<string> {
+  const res = Promise.resolve().then(() =>
+    new XMLSerializer().serializeToString(svg),
+  )
+  if (plain) return res
+  return res
     .then(encodeURIComponent)
     .then((html) => `data:image/svg+xml;charset=utf-8,${html}`)
+}
+
+export async function svgToDataURL(svg: SVGElement): Promise<string> {
+  return encodeSvg(svg, false)
 }
 
 export async function nodeToDataURL(
   node: HTMLElement,
   width: number,
   height: number,
+  options: Options = {},
 ): Promise<string> {
   const xmlns = 'http://www.w3.org/2000/svg'
   const svg = document.createElementNS(xmlns, 'svg')
@@ -218,5 +226,5 @@ export async function nodeToDataURL(
   svg.appendChild(foreignObject)
   foreignObject.appendChild(node)
 
-  return svgToDataURL(svg)
+  return encodeSvg(svg, options.plainSvg)
 }
